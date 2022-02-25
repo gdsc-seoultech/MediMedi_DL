@@ -3,7 +3,8 @@
 
 2. Text Recognition
 ```
-python detect.py --trained_model=craft_mlt_25k.pth --test_folder=demo_image/
+python detect.py --trained_model=craft_mlt_25k.pth --test_folder=demo_image/ #demo
+python detect.py --weights best.pt #test
 ```
 3. Image Crop
 ```
