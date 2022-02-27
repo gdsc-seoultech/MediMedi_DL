@@ -6,7 +6,7 @@
 #demo
 python3 detect.py --trained_model=craft_mlt_25k.pth --test_folder=demo_image/
 #test
-python3 detection/detect.py --weights best.pt --source test_image/ --save-crop 
+python3 detection/detect.py --weights detection/best.pt --source test_image/ --save-crop 
 ```
 3. Image Crop(test에서는 건너뛰어도 되는 과정)
 ```
