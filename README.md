@@ -22,7 +22,7 @@ python3 recognize.py \
 #test
 python3 recognition/recogn.py 
 --Transformation TPS --FeatureExtraction ResNet --SequenceModeling BiLSTM --Prediction Attn \
---image_folder detection/runs/detect/exp/crops --saved_model recognition/best_accuracy.pth \
+--image_folder detection/runs/detect/exp/crops/text/ --saved_model recognition/best_accuracy.pth \
 --imgH 64 --imgW 200
 ```
 
