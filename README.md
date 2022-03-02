@@ -1,4 +1,4 @@
-"# MediMedi_DL"
+# MediMedi_DL
 
 ## Getting Started
 Clone repo and install requirements.txt in a Python>=3.7.0 environment
