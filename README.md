@@ -10,11 +10,11 @@ pip install -r requirements.txt
 ## Running OCR Code
 1. Image를 test_image 폴더에 저장
 
-2. Text Recognition
+2. Text Detection
 ```
 python detect.py --source test_image/ --save-crop 
 ```
-3. Text Detection
+3. Text Recognition
 ```
 python recogn.py --image_folder runs/detect/exp/crops/text/
 ```
