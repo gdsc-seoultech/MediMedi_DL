@@ -7,6 +7,7 @@ git clone https://github.com/gdsc-seoultech/MediMedi_DL.git
 cd MediMedi_DL
 pip install -r requirements.txt
 ```
+## Running OCR Code
 1. Image를 test_image 폴더에 저장
 
 2. Text Recognition
