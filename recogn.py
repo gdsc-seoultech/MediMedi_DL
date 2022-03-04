@@ -45,7 +45,8 @@ def demo(opt):
     # predict
     model.eval()
     with torch.no_grad():
-        for image_tensors, image_path_list in demo_loader:
+        for image_tensors, _ in demo_loader: #image_path_list는 필요없음
+            print(len(image_tensors))
             batch_size = image_tensors.size(0)
             image = image_tensors.to(device)
             # For max length prediction
@@ -72,7 +73,7 @@ def demo(opt):
             preds_prob = F.softmax(preds, dim=2)
             preds_max_prob, _ = preds_prob.max(dim=2)
             medi_str = ""
-            for pred, pred_max_prob in zip(image_path_list, preds_str, preds_max_prob):
+            for pred, pred_max_prob in zip(preds_str, preds_max_prob):
                 if 'Attn' in opt.Prediction:
                     pred_EOS = pred.find('[s]')
                     pred = pred[:pred_EOS]  # prune after "end of sentence" token ([s])

@@ -16,6 +16,6 @@ python detect.py --source test_image/ --save-crop
 ```
 3. Text Recognition
 ```
-python recogn.py --image_folder runs/detect/exp/crops/text/
+python recogn.py --image_folder runs/detect/exp/
 ```
 
