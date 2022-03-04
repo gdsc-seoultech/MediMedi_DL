@@ -186,7 +186,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
                         annotator.box_label(xyxy, label, color=colors(c, True))
                         if save_crop:
-                            save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
+                            images_crop = save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
             # Stream results
             im0 = annotator.result()
@@ -225,6 +225,8 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     if update:
         strip_optimizer(weights)  # update model (to fix SourceChangeWarning)
 
+    return images_crop
+
 
 def parse_opt():
     parser = argparse.ArgumentParser()
@@ -262,10 +264,11 @@ def parse_opt():
 
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
-    run(**vars(opt))
+    return run(**vars(opt))
+    
 
 #recogn
-def demo(opt):
+def demo(opt, images):
     """ model configuration """
     if 'CTC' in opt.Prediction:
         converter = CTCLabelConverter(opt.character)
@@ -287,9 +290,9 @@ def demo(opt):
 
     # prepare data. two demo images from https://github.com/bgshih/crnn#run-demo
     AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-    demo_data = RawDataset(root=opt.image_folder, opt=opt)  # use RawDataset
+    demo_data = RawDataset(root=opt.image_folder, opt=opt)  # use RawDataset # 이 부분 수정해야함
     demo_loader = torch.utils.data.DataLoader(
-        demo_data, batch_size=opt.batch_size,
+        images, batch_size=opt.batch_size,
         shuffle=False,
         num_workers=int(opt.workers),
         collate_fn=AlignCollate_demo, pin_memory=True)
@@ -349,11 +352,11 @@ def demo(opt):
 if __name__ == "__main__":
     #detect
     opt = parse_opt()
-    main(opt)
+    images = main(opt)
     
     #recogn
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
+    parser.add_argument('--image_folder', help='path to image_folder which contains text images') #required=True 제거
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
     parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
     parser.add_argument('--saved_model', default='best_recogn.pth', help="path to saved_model to evaluation") #required=True에서 default='best_recogn.pth'로 수정
@@ -386,5 +389,5 @@ if __name__ == "__main__":
     cudnn.deterministic = True
     opt.num_gpu = torch.cuda.device_count()
 
-    demo(opt)
+    demo(opt, images)
 
