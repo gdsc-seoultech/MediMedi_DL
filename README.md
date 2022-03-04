@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 2. Text Detection
 ```
-python detect.py --source test_image/ --save-crop 
+python detect.py --source test_image/
 ```
 3. Text Recognition
 ```
