@@ -46,7 +46,12 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, time_sync
 
-import numpy as np #추가
+# 추가한 Library
+import numpy as np
+from PIL import Image
+import requests
+from io import BytesIO
+import shutil
 
 @torch.no_grad()
 def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
@@ -77,12 +82,27 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
         dnn=False,  # use OpenCV DNN for ONNX inference
         ):
     source = str(source)
+    # 추가 ---------------------------------
+    response = requests.get(source)
+    img = Image.open(BytesIO(response.content))
+    file_name = source.split('/')[-1].split('.')[0]
+    dir = 'download/'+file_name
+    if os.path.exists(dir): #현재는 만약 시와 분이 같으면 폴더명이 같음. 따라서 그런 경우 강제로 이전 파일 삭제
+        shutil.rmtree(dir)
+    os.mkdir(dir)
+    img.save(dir+'/'+file_name+'.png', 'png')
+
+    source = dir+'/'
+    name = file_name
+    project = source
+    # --------------------------------------
     save_img = not nosave and not source.endswith('.txt')  # save inference images
     is_file = Path(source).suffix[1:] in (IMG_FORMATS + VID_FORMATS)
     is_url = source.lower().startswith(('rtsp://', 'rtmp://', 'http://', 'https://'))
     webcam = source.isnumeric() or source.endswith('.txt') or (is_url and not is_file)
     if is_url and is_file:
         source = check_file(source)  # download
+    
 
     # Directories
     save_dir = increment_path(Path(project) / name, exist_ok=exist_ok)  # increment run

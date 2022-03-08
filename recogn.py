@@ -33,9 +33,17 @@ def demo(opt):
     print('loading pretrained model from %s' % opt.saved_model)
     model.load_state_dict(torch.load(opt.saved_model, map_location=device))
 
+    # 추가 ---------------------------------
+    source = str(opt.source)
+    file_name = source.split('/')[-1].split('.')[0]
+    dir = 'download/'+file_name
+
+    source = dir+'/'+file_name+'/'
+    # --------------------------------------
+
     # prepare data. two demo images from https://github.com/bgshih/crnn#run-demo
     AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-    demo_data = RawDataset(root=opt.image_folder, opt=opt)  # use RawDataset
+    demo_data = RawDataset(root=source, opt=opt)  # use RawDataset
     demo_loader = torch.utils.data.DataLoader(
         demo_data, batch_size=opt.batch_size,
         shuffle=False,
@@ -46,7 +54,6 @@ def demo(opt):
     model.eval()
     with torch.no_grad():
         for image_tensors, _ in demo_loader: #image_path_list는 필요없음
-            print(len(image_tensors))
             batch_size = image_tensors.size(0)
             image = image_tensors.to(device)
             # For max length prediction
@@ -89,7 +96,7 @@ def demo(opt):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--image_folder', required=True, help='path to image_folder which contains text images')
+    parser.add_argument('--source', required=True, help='path to image_folder which contains text images')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
     parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
     parser.add_argument('--saved_model', default='best_recogn.pth', help="path to saved_model to evaluation") #required=True에서 default='best_recogn.pth'로 수정

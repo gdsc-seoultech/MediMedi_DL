@@ -8,14 +8,13 @@ cd MediMedi_DL
 pip install -r requirements.txt
 ```
 ## Running OCR Code
-1. Image를 test_image 폴더에 저장
 
-2. Text Detection
+1. Text Detection
 ```
-python detect.py --source test_image/ --save-crop 
+python detect.py --source $image_url
 ```
-3. Text Recognition
+2. Text Recognition
 ```
-python recogn.py --image_folder runs/detect/exp/
+python recogn.py --source $image_url
 ```
 
