@@ -9,11 +9,10 @@ pip install -r requirements.txt
 ```
 ## Running OCR Code
 
-1. Text Detection
+Text Detection and Recognition
 ```
 python detect.py --source $image_url
 ```
-2. Text Recognition
 ```
 python recogn.py --source $image_url
 ```
