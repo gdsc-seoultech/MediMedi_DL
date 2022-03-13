@@ -93,6 +93,10 @@ def demo(opt):
                 else:
                     medi_str += pred+", "
             print(medi_str)
+            
+            with open(r"C:/medi/MediMedi_DL/result.txt", "w", encoding="utf-8") as file:
+                file.write(medi_str)
+            
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
