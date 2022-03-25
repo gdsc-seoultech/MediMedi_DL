@@ -90,10 +90,7 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     if os.path.exists(dir): #현재는 만약 시와 분이 같으면 폴더명이 같음. 따라서 그런 경우 강제로 이전 파일 삭제
         shutil.rmtree(dir)
     os.mkdir(dir)
-    for i in range(1,5):
-        img.save(dir+'/'+file_name+'_'+str(i)+'.png', 'png')
-        img = img.rotate(90)
-
+    img.save(dir+'/'+file_name+'.png', 'png')
 
     source = dir+'/'
     name = file_name
