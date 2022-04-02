@@ -108,4 +108,7 @@ python detect.py --source $image_url
 ```
 python recogn.py --source $image_url
 ```
+##Reference
+Text detection https://github.com/ultralytics/yolov5
+Text recognition https://github.com/clovaai/deep-text-recognition-benchmark
 
